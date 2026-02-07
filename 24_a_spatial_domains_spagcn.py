@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 24_a_spatial_domains_spagcn.py
 # Author: Kuroneko
-# Date: 2026-02-04
 # Version: V1.0 (Spatial Domains & SVGs)
 #
 # Description:
@@ -184,4 +183,5 @@ if all_svgs:
 
 print("=" * 60)
 print("SpaGCN Analysis Pipeline Completed Successfully.")
+
 print("=" * 60)
