@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 17_run_deconvolution_c2l.py
 # Author: Kuroneko
-# Date: 2026-02-04
 # Version: V1.0 (The Foundation)
 #
 # Description:
@@ -256,4 +255,5 @@ with rcParams.context({'figure.figsize': (8, 8)}):
 
 print("=" * 60)
 print("Deconvolution Completed Successfully.")
+
 print("=" * 60)
