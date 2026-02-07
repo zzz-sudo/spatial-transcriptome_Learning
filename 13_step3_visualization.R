@@ -1,7 +1,6 @@
 # ===========================================================================
 # 文件名称: step3_visualization_fix.R
 # 作    者: Kuroneko
-# 日    期: 2026-02-02
 # 版    本: V2.0 (基于降维对象的稳健空间可视化)
 #
 # 功能描述:
@@ -152,4 +151,5 @@ p3 <- DoHeatmap(obj, features = top5$gene) +
 ggsave("03_top5_markers_heatmap.png", plot = p3, width = 12, height = 10)
 cat("Visualization Pipeline Completed Successfully.\n")
 cat("Output saved to:", work_dir, "\n")
+
 
