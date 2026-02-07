@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 24_c_spatial_svgs_spagene.R
 # Author: Kuroneko
-# Date: 2026-02-04
 # Version: V3.0 (Final Stable Edition)
 #
 # Description:
@@ -112,5 +111,6 @@ if (length(plot_list) > 0) {
   do.call(grid.arrange, c(plot_list, ncol = length(plot_list)))
   dev.off()
 }
+
 
 message("DONE: SpaGene Analysis Completed.")
