@@ -49,23 +49,29 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
+import seaborn as sns
+
+# [Config] Suppress Dask FutureWarnings
+import dask
+
+dask.config.set({'dataframe.query-planning': True})
 
 # =========================================================================
-# Main Execution Block (Required for Windows)
+# Main Execution Block
 # =========================================================================
 if __name__ == "__main__":
 
-    # 1. System Initialization (系统初始化)
+    # 1. System Initialization
     print("[Module 0] Initializing system environment...")
 
     if os.path.basename(__file__) == "tangram.py":
         print("[Error] Please rename this script. It cannot be named tangram.py")
         sys.exit(1)
 
-    # 屏蔽警告
+    # 屏蔽繁杂警告
     warnings.simplefilter(action='ignore', category=pd.errors.PerformanceWarning)
     warnings.simplefilter(action='ignore', category=FutureWarning)
-    warnings.filterwarnings("ignore", message="The legacy Dask DataFrame implementation")
+    warnings.simplefilter(action='ignore', category=UserWarning)
 
     BASE_DIR = r"F:\ST\code\03"
     RESULT_DIR = r"F:\ST\code\results"
@@ -87,7 +93,7 @@ if __name__ == "__main__":
         device = "cpu"
         print("    [Status] GPU not found. Using CPU mode.")
 
-    # 2. Data Loading (数据加载)
+    # 2. Data Loading
     print("\n[Module 1] Data Loading...")
     sc_path = os.path.join(BASE_DIR, "adata_sc.h5ad")
     st_path = os.path.join(BASE_DIR, "adata_st.h5ad")
@@ -99,39 +105,34 @@ if __name__ == "__main__":
     adata_sc = sc.read_h5ad(sc_path)
     adata_st = sc.read_h5ad(st_path)
 
-    # 确保基因名唯一
     adata_sc.var_names_make_unique()
     adata_st.var_names_make_unique()
 
-    # 简单的归一化 (Standard Scanpy Preprocessing)
     print("    Normalizing single-cell data...")
     sc.pp.normalize_total(adata_sc)
 
-    # 识别细胞类型列
     potential_keys = ['cell_subclass', 'cell_cluster', 'CellType', 'leiden']
     sc_label_key = next((k for k in potential_keys if k in adata_sc.obs.columns), None)
     print(f"    Using cell type column: {sc_label_key}")
 
-    # 3. Data Preprocessing (数据预处理 - 官网流程)
+    # 3. Data Preprocessing
     print("\n[Module 2] Data Preprocessing (Official tg.pp_adatas)...")
 
-    # 第一步：计算 Marker Genes (模拟官网的 markers.csv)
+    # Marker selection
     print("    Generating marker genes dynamically...")
     sc.tl.rank_genes_groups(adata_sc, groupby=sc_label_key, use_raw=False)
     markers_df = pd.DataFrame(adata_sc.uns["rank_genes_groups"]["names"]).iloc[:100, :]
     markers = list(set(markers_df.melt().value.values))
     print(f"    Identified {len(markers)} marker genes.")
 
-    # 第二步：调用官方函数 tg.pp_adatas
-    # 这会自动计算 training_genes, density_prior 并存入 uns/obs
+    # Official Preprocessing
     print("    Running tg.pp_adatas()...")
     tg.pp_adatas(adata_sc, adata_st, genes=markers)
     print("    tg.pp_adatas completed successfully.")
 
-    # 4. Tangram Mapping (模型训练与映射)
+    # 4. Tangram Mapping
     print("\n[Module 3] Tangram Mapping...")
 
-    # 官方调用方式，不再需要手动切片，tg会自动处理
     ad_map = tg.map_cells_to_space(
         adata_sc,
         adata_st,
@@ -143,48 +144,63 @@ if __name__ == "__main__":
 
     print("    Model training finished.")
 
-    # 投影细胞类型
     print("    Projecting cell types...")
     tg.project_cell_annotations(ad_map, adata_st, annotation=sc_label_key)
 
-    # 结果固化
     df_probs = adata_st.obsm["tangram_ct_pred"]
     adata_st.obs["tangram_max_celltype"] = df_probs.idxmax(axis=1)
 
-    # 绘图
     sc.pl.spatial(adata_st, color="tangram_max_celltype", title="Tangram Prediction",
                   frameon=False, show=False, save="_Tangram_Official_Pred.png")
     print("    Prediction plot saved.")
 
-    # 5. Model Validation (模型验证)
+    # 5. Model Validation (Manual Fix)
     print("\n[Module 4] Model Validation (AUC)...")
 
-    # 投影基因表达
     ad_ge = tg.project_genes(adata_map=ad_map, adata_sc=adata_sc)
 
-    # 计算 AUC (Tangram 会自动处理 overlap genes)
     try:
+        # 计算 AUC 数据
         df_all_genes = tg.compare_spatial_geneexp(ad_ge, adata_st, adata_sc)
-        tg.plot_auc(df_all_genes)
-        plt.savefig(os.path.join(FIGURE_DIR, "Tangram_Validation_AUC.png"))
-        plt.close()
-        print("    Validation plot saved.")
-    except Exception as e:
-        print(f"    [Warning] Validation skipped: {e}")
 
-    # 6. Spatial Graph (构建空间图)
+        # [FIX] 手动绘图替代 tg.plot_auc，解决 Seaborn 版本兼容性问题
+        plt.figure(figsize=(6, 6))
+        # 散点图: x=sparsity, y=score (AUC)
+        # 根据 df_all_genes 的实际列名，通常是 'auc_score' 和 'sparsity'
+        # 但 tangram 返回列名可能是 'score'
+
+        # 自动检测列名
+        y_col = 'score' if 'score' in df_all_genes.columns else 'auc_score'
+        x_col = 'sparsity' if 'sparsity' in df_all_genes.columns else 'sparsity_sc'
+
+        sns.scatterplot(data=df_all_genes, x=x_col, y=y_col, alpha=0.5)
+
+        # 添加辅助线
+        plt.axhline(0.5, color='r', linestyle='--', label='Random (0.5)')
+        plt.title(f"Spatial Prediction Accuracy (Mean AUC: {df_all_genes[y_col].mean():.3f})")
+        plt.xlabel("Gene Sparsity (1 - coverage)")
+        plt.ylabel("AUC Score")
+        plt.legend()
+
+        plt.savefig(os.path.join(FIGURE_DIR, "Tangram_Validation_AUC_Fixed.png"))
+        plt.close()
+        print("    Validation plot (Fixed) saved.")
+
+    except Exception as e:
+        print(f"    [Warning] Validation failed: {e}")
+
+    # 6. Spatial Graph
     print("\n[Module 5] Constructing Spatial Graph...")
     sq.gr.spatial_neighbors(adata_st, coord_type="generic", n_neighs=6)
 
-    # 7. Neighborhood Enrichment (邻域富集 - 安全模式)
+    # 7. Neighborhood Enrichment
     print("\n[Module 6] Neighborhood Enrichment...")
 
-    # 安全检查：是否只有一种细胞类型？
     n_clusters = len(adata_st.obs["tangram_max_celltype"].unique())
     if n_clusters < 2:
         print(f"    [Warning] Only {n_clusters} cell type found. Skipping enrichment analysis.")
     else:
-        # CRITICAL: n_jobs=1 prevents Windows crash
+        # CRITICAL: n_jobs=1
         sq.gr.nhood_enrichment(adata_st, cluster_key="tangram_max_celltype", n_jobs=1)
 
         sq.pl.nhood_enrichment(adata_st, cluster_key="tangram_max_celltype",
@@ -192,36 +208,8 @@ if __name__ == "__main__":
                                show=False, save="_Neighborhood_Enrichment.png")
         print("    Enrichment analysis done.")
 
-    # 8. Cell Communication (细胞通讯 - 安全模式)
-    print("\n[Module 7] Cell Communication (Ligand-Receptor)...")
-    if n_clusters < 2:
-        print("    [Skip] Not enough cell types for interaction analysis.")
-    else:
-        try:
-            # CRITICAL: n_jobs=1
-            sq.gr.ligand_receptor(
-                adata_st,
-                cluster_key="tangram_max_celltype",
-                interaction_params={"test_prop": 0.2},
-                n_jobs=1
-            )
-
-            # Plot
-            top_cells = adata_st.obs["tangram_max_celltype"].value_counts().index[:2].tolist()
-            if len(top_cells) >= 2:
-                s, t = top_cells[0], top_cells[1]
-                sq.pl.ligand_receptor(
-                    adata_st, cluster_key="tangram_max_celltype",
-                    source_groups=s, target_groups=t,
-                    title=f"Interaction: {s}-{t}",
-                    show=False, save="_LR_Interaction.png"
-                )
-                print("    Communication analysis done.")
-        except Exception as e:
-            print(f"    [Warning] Communication skipped: {e}")
-
-    # 9. Spatial Variability (空间高变基因)
-    print("\n[Module 8] Spatial Variability (Moran's I)...")
+    # 8. Spatial Variability
+    print("\n[Module 7] Spatial Variability (Moran's I)...")
     if "highly_variable" not in adata_st.var.columns:
         sc.pp.highly_variable_genes(adata_st, n_top_genes=2000)
 
@@ -236,8 +224,8 @@ if __name__ == "__main__":
         moran_df.to_csv(csv_path)
         print(f"    Spatial variable genes saved to: {csv_path}")
 
-    # 10. Export (结果导出)
-    print("\n[Module 9] Exporting Results...")
+    # 9. Export
+    print("\n[Module 8] Exporting Results...")
     save_path = os.path.join(RESULT_DIR, "mouse_final_result_official.h5ad")
     adata_st.write(save_path, compression="gzip")
 
