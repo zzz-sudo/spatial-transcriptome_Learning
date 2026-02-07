@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 24_b_spatial_domains_stagate.py
 # Author: Kuroneko
-# Date: 2026-02-04
 # Version: V1.0 (Spatial Domains SOTA)
 #
 # Description:
@@ -260,4 +259,5 @@ domain_df.to_csv(os.path.join(OUT_DIR, "stagate_domains.csv"))
 print("STAGATE Analysis Completed.")
 print(f"Check the comparison plot in: {os.path.join(PLOT_DIR, '03_Comparison_Baseline_vs_STAGATE.pdf')}")
 print("You should see that STAGATE domains are much smoother and spatially coherent!")
+
 print("=" * 60)
