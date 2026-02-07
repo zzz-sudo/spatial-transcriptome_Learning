@@ -2,7 +2,6 @@
 # Project: Spatial Transcriptomics - RNA Velocity Analysis (Embedded SIRV)
 # File Name: 35_run_spatial_velocity_sirv_fixed.py
 # Author: Kuroneko (PhD Candidate)
-# Date: 2026-02-04
 # Current Path: F:\ST\code
 #
 # ---------------------------------------------------------------------------
@@ -246,4 +245,5 @@ if __name__ == "__main__":
     # 保存
     save_path = os.path.join(OUT_DIR, "HybISS_velocity_final.h5ad")
     adata_imputed.write_h5ad(save_path)
+
     print(f"\nAnalysis Completed. Results saved to: {OUT_DIR}")
