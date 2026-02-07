@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 20_run_cellchat_spatial_analysis.R
 # Author: Kuroneko
-# Date: 2026-02-03
 # Version: V1.0 (Spatial Enhanced Version)
 #
 # Description:
@@ -183,4 +182,5 @@ dev.off()
 # [Module 7] 保存结果
 # -------------------------------------------------------------------------
 saveRDS(cellchat, file = file.path(OUT_DIR, "cellchat_spatial_results.rds"))
+
 message("CellChat Analysis Completed. Files saved in: ", OUT_DIR)
