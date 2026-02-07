@@ -3,7 +3,6 @@
 ===========================================================================
 文件名称: st_pnas_merfish_analysis.py
 作    者: Kuroneko
-创建日期: 2026-02-01
 版    本: V1.0
 
 功能描述:
@@ -203,4 +202,5 @@ print("-" * 60)
 print("PNAS MERFISH 数据构建与分析完成。")
 print(f"结果文件: {save_path}")
 print(f"图表目录: {FIGURE_DIR}")
+
 print("-" * 60)
