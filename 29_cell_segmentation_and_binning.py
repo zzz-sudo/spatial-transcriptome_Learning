@@ -2,7 +2,6 @@
 # Project: Spatial Transcriptomics - Advanced Cell Segmentation and Aggregation
 # File Name: 29_cell_segmentation_and_binning_fixed.py
 # Author: Kuroneko
-# Date: 2026-02-04
 # Current Path: F:\ST\code
 #
 # ---------------------------------------------------------------------------
@@ -183,4 +182,5 @@ adata_cell = anndata.AnnData(
 print(f"Aggregation complete. Generated {adata_cell.n_obs} single cells.")
 
 # 保存聚合后的单细胞级数据
+
 adata_cell.write_h5ad(os.path.join(OUT_DIR, "adata_cell_level.h5ad"))
