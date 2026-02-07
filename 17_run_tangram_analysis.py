@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 17_run_tangram_analysis_fixed_v1.3.py
 # Author: Kuroneko
-# Date: 2026-02-03
 # Version: V1.3 (Fix Histogram Dimensionality Error)
 #
 # Description:
@@ -277,4 +276,5 @@ clean_gpu()
 print("=" * 60)
 print("Tangram Analysis Pipeline Completed.")
 print(f"Results Directory: {OUT_DIR}")
+
 print("=" * 60)
