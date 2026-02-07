@@ -3,7 +3,6 @@
 ---------------------------------------------------------------------------
 文件名称: st_final_analysis.py
 作    者: Kuroneko
-创建日期: 2026-02-01
 功能描述:
     空间转录组(Spatial Transcriptomics)标准分析全流程。
     直接读取 01 文件夹下的原始数据，无需移动文件。
@@ -260,5 +259,6 @@ try:
     print(f"矩阵已导出至: {matrix_dir}")
 except Exception as e:
     print(f"矩阵导出跳过: {e}")
+
 
 print("\n=== 所有分析流程结束 ===")
