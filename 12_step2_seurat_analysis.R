@@ -1,7 +1,6 @@
 # ===========================================================================
 # 文件名称: step2_seurat_analysis_final_v3.R
 # 作    者: Kuroneko
-# 日    期: 2026-02-02
 # 版    本: V3.0 (稳健空间可视化版 - 绕过 VisiumV1 类)
 #
 # 功能描述:
@@ -169,3 +168,4 @@ if (nrow(top5) > 0) {
 cat("Analysis Pipeline Completed.\n")
 
 cat("All plots saved to:", work_dir, "\n")
+
