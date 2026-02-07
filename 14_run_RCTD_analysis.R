@@ -1,8 +1,7 @@
 # ===========================================================================
 # File Name: run_RCTD_analysis_v2.1.R
 # Author: Kuroneko
-# Date: 2026-02-02
-# Version: V2.1 (Fix Package Loading & Seurat v5)
+# Version: V2.1 
 #
 # Description:
 #     [RCTD 细胞类型反卷积全流程 - 稳健修复版]
@@ -278,3 +277,4 @@ plt <- vizAllTopics(theta = as.matrix(norm_weights),
 ggsave("F:/ST/code/05/RCTD_results_custom/03_spatial_scatterpies_FIXED.png", plot = plt, width = 12, height = 10)
 print("新图已保存，快去看看有没有点！")
 ##建议：先试 r = 100，如果圆圈重叠太厉害看不清，就改小点
+
