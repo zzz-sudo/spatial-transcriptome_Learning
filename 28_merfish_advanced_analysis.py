@@ -2,7 +2,6 @@
 # Project: MERFISH Single-cell Spatial Analysis
 # File Name: 25_merfish_advanced_analysis.py
 # Author: Kuroneko
-# Date: 2026-02-04
 # Current Path: F:\ST\code
 #
 # Description:
@@ -134,4 +133,5 @@ sq.pl.ligrec(
 # -------------------------------------------------------------------------
 print(f"Saving final AnnData object to {OUT_DIR}...")
 adata.write_h5ad(os.path.join(OUT_DIR, "adata_merfish_final.h5ad"))
+
 print("All tasks completed successfully!")
