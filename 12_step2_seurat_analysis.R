@@ -1,40 +1,39 @@
 # ===========================================================================
-# File Name: step2_seurat_analysis_final_v3.R
-# Author: Kuroneko
-# Date: 2026-02-02
-# Version: V3.0 (Robust Spatial Visualization - Bypass VisiumV1 Class)
+# 文件名称: step2_seurat_analysis_final_v3.R
+# 作    者: Kuroneko
+# 日    期: 2026-02-02
+# 版    本: V3.0 (稳健空间可视化版 - 绕过 VisiumV1 类)
 #
-# Description:
-#     [Seurat Spatial Analysis - Robust Workflow]
-#     This script solves the "UpdateSeuratObject" error by bypassing the 
-#     fragile 'VisiumV1' object construction in Seurat v5.
+# 功能描述:
+#     [Seurat 空间转录组分析 - 稳健流程]
+#     本脚本通过绕过 Seurat v5 中脆弱的 'VisiumV1' 对象构建，
+#     解决了 "UpdateSeuratObject" 等常见的版本兼容性报错。
 #
-#     Method:
-#     Instead of creating a complex SpatialImage object, we store spatial 
-#     coordinates (x, y) as a custom Dimensional Reduction ('spatial').
-#     This allows us to use standard DimPlot/FeaturePlot functions to visualize
-#     spatial distributions without version compatibility issues.
+#     核心方法:
+#     我们不构建复杂的 SpatialImage 对象，而是将空间物理坐标 (x, y) 
+#     直接存储为一个自定义的降维结果 ('spatial')。
+#     这使得我们可以使用标准的 DimPlot/FeaturePlot 函数直接进行空间可视化，
+#     且完全不受 Seurat 版本升级的影响。
 #
-#     Key Modules:
-#     1. Load Data (Matrix, Metadata, Coordinates).
-#     2. Create Seurat Object.
-#     3. Create 'spatial' Reduction from coordinates.
-#     4. Differential Expression & Heatmap.
-#     5. Robust Visualization (DimPlot, FeaturePlot).
+#     主要模块:
+#     1. 数据加载 (读取 Python 导出的矩阵、元数据、坐标)。
+#     2. 对象构建 (CreateSeuratObject)。
+#     3. 空间注入 (将坐标转换为 'spatial' 降维对象)。
+#     4. 差异分析 (FindAllMarkers 计算 Marker 基因)。
+#     5. 高级可视化 (空间聚类图、热图、气泡图、基因分布图)。
 #
-# Input Files (from Python output):
-#     - mat.csv
-#     - metadata.tsv
-#     - position_spatial.tsv
+# 输入文件 (来自 Python step1 的输出):
+#     - mat.csv (表达矩阵)
+#     - metadata.tsv (元数据，含 clusters)
+#     - position_spatial.tsv (空间坐标)
 #
-# Output Files:
-#     - 01_spatial_clusters.png
-#     - 02_spatial_gene_counts.png
-#     - 03_heatmap.png
-#     - 04_dotplot.png
-#     - 05_gene_expression.png
+# 输出文件:
+#     - 01_spatial_clusters.png (空间聚类图)
+#     - 02_spatial_gene_counts.png (UMI 计数分布)
+#     - 03_heatmap.png (差异基因热图)
+#     - 04_dotplot.png (差异基因气泡图)
+#     - 05_gene_expression.png (Marker 基因空间分布)
 # ===========================================================================
-
 # 1. Environment Setup
 cat("[Module 1] Initializing R Environment...\n")
 Sys.setenv(LANGUAGE = "en")
@@ -168,4 +167,5 @@ if (nrow(top5) > 0) {
 }
 
 cat("Analysis Pipeline Completed.\n")
+
 cat("All plots saved to:", work_dir, "\n")
