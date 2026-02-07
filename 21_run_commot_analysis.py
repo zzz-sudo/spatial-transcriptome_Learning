@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 21_run_commot_analysis.py
 # Author: Kuroneko
-# Date: 2026-02-03
 # Version: V1.0 (Optimal Transport Edition)
 #
 # Description:
@@ -219,4 +218,5 @@ adata.write_h5ad(save_path, compression="gzip")
 print("=" * 60)
 print(f"COMMOT Analysis Completed.")
 print(f"Results saved to: {OUT_DIR}")
+
 print("=" * 60)
