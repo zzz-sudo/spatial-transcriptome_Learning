@@ -2,7 +2,6 @@
 # Project: Spatial Transcriptomics - QC & Visualization Check
 # File Name: 36_quick_analysis_check.py
 # Author: Kuroneko
-# Date: 2026-02-04
 # Current Path: F:\ST\code
 #
 # ---------------------------------------------------------------------------
@@ -108,4 +107,5 @@ print("="*60)
 print(f"Check Completed.")
 print(f"QC Plot saved to: {save_path}")
 print("Please open the PNG image to verify spatial structure.")
+
 print("="*60)
