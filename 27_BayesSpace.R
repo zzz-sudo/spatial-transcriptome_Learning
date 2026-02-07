@@ -2,7 +2,6 @@
 # Project: Spatial Transcriptomics Analysis (Bioinformatics Platform)
 # File Name: 24_b_spatial_domains_stagate.py
 # Author: Kuroneko (PhD Student / AI-Bioinformatics Developer)
-# Date: 2026-02-04
 # Current Path: F:\ST\code
 # GPU Environment: RTX 5070 (Mandatory for STAGATE GAT mechanism)
 #
@@ -79,4 +78,5 @@ sp1.enhanced <- enhanceFeatures(sp1.enhanced, sp1, feature_names = markers)
 # 对比原始与增强后的效果
 p1 <- featurePlot(sp1, "PMEL") + labs(title = "Original")
 p2 <- featurePlot(sp1.enhanced, "PMEL") + labs(title = "Enhanced")
+
 p1 + p2
