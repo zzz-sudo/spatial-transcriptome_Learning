@@ -2,7 +2,6 @@
 # Project: Visium HD High-Precision Reconstruction & Contact Analysis
 # File Name: 30_visium_hd_cellpose_complete_analysis_fixed.py
 # Author: Kuroneko (PhD Candidate)
-# Date: 2026-02-04
 # Current Path: F:\ST\code
 #
 # ---------------------------------------------------------------------------
@@ -252,4 +251,5 @@ if __name__ == "__main__":
         print(f"\nPipeline Finished Successfully. Results saved to: {save_path}")
     except Exception as e:
         print(f"\n[Error] Saving still failed: {e}")
+
         print("建议：尝试删除 adata.uns['leiden_ligrec'] 后再保存。")
