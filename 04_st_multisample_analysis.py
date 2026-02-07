@@ -3,7 +3,6 @@
 ---------------------------------------------------------------------------
 文件名称: st_multisample_analysis.py
 作    者: Kuroneko
-创建日期: 2026-02-01
 功能描述:
     多样本空间转录组整合分析。
     1. 读取两个不同的空间转录组切片 (Anterior 和 Posterior)。
@@ -200,5 +199,6 @@ print("\nStep 7: 保存整合后的数据...")
 save_path = os.path.join(result_dir, "integrated_analysis.h5ad")
 adata_all.write(save_path)
 print(f"结果已保存至: {save_path}")
+
 
 print("\n=== 多样本分析结束 ===")
