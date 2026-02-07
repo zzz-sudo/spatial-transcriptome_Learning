@@ -1,8 +1,7 @@
 # ===========================================================================
 # File Name: 19_run_spata2_analysis.R
 # Author: Kuroneko
-# Date: 2026-02-03
-# Version: V3.2.1 (Full Feature with Tissue Outline)
+# Version: V3.2.1 
 #
 # Description:
 #     [SPATA2 V3 深度分析 - 官方全功能版]
@@ -277,4 +276,5 @@ tryCatch({
 }, error = function(e){})
 
 saveRDS(spata_obj, file.path(out_dir, "spata_object_v5_full.RDS"))
+
 message("Pipeline Completed.")
