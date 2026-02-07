@@ -3,7 +3,6 @@
 ===========================================================================
 文件名称: st_k8_lymph_node_analysis_v2.py
 作    者: Kuroneko
-创建日期: 2026-02-01
 版    本: V2.0 (Fix tarfile error)
 
 功能描述:
@@ -214,4 +213,5 @@ adata.write(OUTPUT_FILE, compression="gzip")
 print("-" * 60)
 print("V1_Human_Lymph_Node 基础分析流程执行完毕 (V2.0)。")
 print(f"数据已保存至: {OUTPUT_FILE}")
+
 print("-" * 60)
