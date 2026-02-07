@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 16_run_cell2location_analysis.py
 # Author: Kuroneko
-# Date: 2026-02-02
 # Version: V2.5 (NMF Key Auto-Fix)
 #
 # Description:
@@ -385,4 +384,5 @@ adata_vis.write(final_h5ad_path)
 print("=" * 60)
 print(f"Cell2location Analysis Completed Successfully.")
 print(f"Results are saved in: {OUT_DIR}")
+
 print("=" * 60)
