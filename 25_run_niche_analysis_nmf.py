@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 25_run_niche_analysis_nmf.py
 # Author: Kuroneko
-# Date: 2026-02-04
 # Version: V1.0 (Educational NMF Edition)
 #
 # Description:
@@ -118,4 +117,5 @@ signature_df.to_csv(os.path.join(OUT_DIR, "niche_signatures.csv"))
 adata.write_h5ad(os.path.join(OUT_DIR, "niche_analysis_results.h5ad"))
 print("=" * 60)
 print("Niche Analysis Finished Successfully.")
+
 print("=" * 60)
