@@ -1,8 +1,7 @@
 # ===========================================================================
 # File Name: run_CellTrek_analysis_v3.3.R
 # Author: Kuroneko
-# Date: 2026-02-02
-# Version: V3.3 (RCTD Data Source + Seurat v5 Reconstruction Fix)
+# Version: V3.3 
 #
 # Description:
 #     [CellTrek 单细胞空间映射全流程 - 官方推荐重构版]
@@ -368,4 +367,5 @@ ggsave("08_kdistance_boxplot.png", p_dist, width=10, height=6)
 message("="*60)
 message("CellTrek Analysis Completed Successfully.")
 message("Results saved to: ", OUT_DIR)
+
 message("="*60)
