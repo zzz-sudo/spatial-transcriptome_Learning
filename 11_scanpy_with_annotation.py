@@ -3,7 +3,6 @@
 ===========================================================================
 File Name: step1_scanpy_with_annotation.py
 Author: Kuroneko
-Date: 2026-02-02
 Version: V2.0 (With Single-Cell Annotation Integration)
 
 Description:
@@ -154,4 +153,5 @@ huage_adata_info(adata, WORK_DIR)
 print(f"    Export completed to: {WORK_DIR}")
 print("=" * 60)
 print("Pipeline Completed.")
+
 print("=" * 60)
