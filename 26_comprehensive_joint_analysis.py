@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 26_comprehensive_joint_analysis.py
 # Author: Kuroneko (Maize Nutrients Research Team)
-# Date: 2026-02-04
 # Version: V1.3 (Ultra-Detailed Integrated Pipeline)
 #
 # Description:
@@ -173,5 +172,6 @@ if valid:
     sc.pl.heatmap(adata, valid, groupby='domain', show=False, cmap='viridis')
     plt.savefig(os.path.join(OUT_DIR, "04_Markers.pdf"))
     plt.close()
+
 
 print("Joint Analysis Finished.")
