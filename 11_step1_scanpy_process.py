@@ -1,29 +1,30 @@
 # -*- coding: utf-8 -*-
 """
 ===========================================================================
-File Name: step1_scanpy_process.py
-Author: Kuroneko
-Date: 2026-02-02
-Version: V1.0
+文件名称: step1_scanpy_process.py
+作    者: Kuroneko
+日    期: 2026-02-02
+版    本: V1.0 (中文注释版)
 
-Description:
-    [Scanpy Spatial Analysis & Export]
-    This script performs standard spatial transcriptomics analysis using Scanpy:
-    1. QC and Filtering (Mitochondrial content, Counts, Genes).
-    2. Normalization and Log-transformation.
-    3. Dimensionality Reduction (PCA, UMAP) and Clustering (Leiden).
-    4. Visualization of spatial clusters and QC metrics.
-    5. Export of processed matrix, metadata, and coordinates for Seurat (R).
+功能描述:
+    [Scanpy 空间转录组标准分析与导出流程]
+    本脚本执行标准的空间转录组无监督分析，不依赖单细胞参考集。
+    
+    核心步骤:
+    1. 质控与过滤 (计算线粒体比例，过滤低质量斑点/基因)。
+    2. 归一化与对数变换 (Normalize & Log1p)。
+    3. 降维与聚类 (PCA -> UMAP -> Leiden 聚类)。
+    4. 可视化 (绘制质控分布图、UMAP 聚类图、空间聚类图)。
+    5. 数据导出 (生成 csv/tsv 文件供 R 语言 Seurat 包后续分析)。
 
-Input Files:
-    - F:\ST\code\04\GBM1_spaceranger_out
+输入文件:
+    - F:/ST/code/04/GBM1_spaceranger_out (SpaceRanger 输出目录)
 
-Output Files:
-    - mat.csv (Expression Matrix)
-    - metadata.tsv (Cell Metadata)
-    - position_spatial.tsv (Spatial Coordinates)
-    - position_X_umap.tsv (UMAP Coordinates)
-    - qc_plot.png, umap_plot.png, spatial_plot.png (Figures)
+输出文件 (results/scanpy_seurat/):
+    - mat.csv (表达矩阵)
+    - metadata.tsv (元数据，包含 clusters 聚类结果)
+    - position_spatial.tsv (空间坐标)
+    - qc_plot.png, umap_plot.png, spatial_plot.png (分析图表)
 ===========================================================================
 """
 
@@ -143,4 +144,5 @@ adata_info(adata, WORK_DIR)
 print(f"    Export completed to: {WORK_DIR}")
 print("=" * 60)
 print("Pipeline Completed Successfully.")
+
 print("=" * 60)
