@@ -1,37 +1,36 @@
 # ===========================================================================
-# File Name: step3_visualization_fix.R
-# Author: Kuroneko
-# Date: 2026-02-02
-# Version: V2.0 (Robust Spatial Visualization via DimReduc)
+# 文件名称: step3_visualization_fix.R
+# 作    者: Kuroneko
+# 日    期: 2026-02-02
+# 版    本: V2.0 (基于降维对象的稳健空间可视化)
 #
-# Description:
-#     [Seurat Advanced Visualization - Robust Fix]
-#     This script resolves the 'UpdateSeuratObject' error by treating spatial 
-#     coordinates as a custom Dimensional Reduction ('spatial').
+# 功能描述:
+#     [Seurat 高级可视化 - 稳健修复版]
+#     本脚本通过将空间物理坐标 (x, y) 封装为自定义的“降维结果”('spatial')，
+#     彻底解决了 Seurat v5 中 'UpdateSeuratObject' 及 SpatialImage 对象构建的报错问题。
 #     
-#     This approach bypasses the strict validation of the 'SpatialImage' class
-#     in Seurat v5, allowing for stable plotting of spatial distributions.
+#     该方法绕过了 Seurat 对 SpatialImage 类的严格校验，
+#     实现了稳定、兼容的空间分布绘图。
 #
-#     Key Functions:
-#     1. Load Scanpy output (matrix, metadata, coordinates).
-#     2. Inject spatial coordinates as a reduction (Fixes the crash).
-#     3. Identify marker genes (FindAllMarkers).
-#     4. Generate Top5 DotPlot (Bubble Plot).
-#     5. Generate Top5 Heatmap.
-#     6. Generate Spatial Cluster Map (using DimPlot).
+#     核心功能:
+#     1. 加载 Scanpy 导出的数据 (表达矩阵、元数据、坐标)。
+#     2. 坐标注入: 将物理坐标作为降维嵌入 (核心修复)。
+#     3. 差异分析: 计算 Marker 基因 (FindAllMarkers)。
+#     4. 生成 Top5 气泡图 (DotPlot)。
+#     5. 生成 Top5 热图 (Heatmap)。
+#     6. 生成空间聚类分布图 (使用 DimPlot)。
 #
-# Input Files:
-#     - mat.csv
-#     - metadata.tsv
-#     - position_spatial.tsv
+# 输入文件:
+#     - mat.csv (表达矩阵)
+#     - metadata.tsv (元数据)
+#     - position_spatial.tsv (空间坐标)
 #
-# Output Files:
-#     - 01_cluster_spatial_distribution.png
-#     - 02_top5_markers_dotplot.png
-#     - 03_top5_markers_heatmap.png
-#     - top5_markers.csv
+# 输出文件:
+#     - 01_cluster_spatial_distribution.png (空间聚类图)
+#     - 02_top5_markers_dotplot.png (Marker 气泡图)
+#     - 03_top5_markers_heatmap.png (Marker 热图)
+#     - top5_markers.csv (差异基因列表)
 # ===========================================================================
-
 # 1. Environment Setup
 cat("[Module 1] Initializing R Environment...\n")
 Sys.setenv(LANGUAGE = "en")
@@ -153,3 +152,4 @@ p3 <- DoHeatmap(obj, features = top5$gene) +
 ggsave("03_top5_markers_heatmap.png", plot = p3, width = 12, height = 10)
 cat("Visualization Pipeline Completed Successfully.\n")
 cat("Output saved to:", work_dir, "\n")
+
