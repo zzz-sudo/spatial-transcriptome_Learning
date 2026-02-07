@@ -1,7 +1,6 @@
 # ===========================================================================
 # File Name: 18_run_stlearn_analysis.py
 # Author: Kuroneko
-# Date: 2026-02-03
 # Version: V1.1 (Fix Image Loading Error)
 #
 # Description:
@@ -236,4 +235,5 @@ print("=" * 60)
 print(f"stLearn Analysis Completed.")
 print(f"1. Generated Tiles are in: {TILES_DIR}")
 print(f"2. Plots are in: {PLOT_DIR}")
+
 print("=" * 60)
